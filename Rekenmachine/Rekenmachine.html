@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang = "nl">
+<script src="Jquery.js"></script>
+<head>
+</head>
+<body>
+	<div id = "display">0</div>
+	<br>
+	<table id = "numpads">
+		<tr>
+			<td><button>1</button></td>
+			<td><button>2</button></td>
+			<td><button>3</button></td>
+			<td><button>+</button></td>
+			<td><button>-</button></td>
+		</tr>
+		<tr>
+			<td><button>4</button></td>
+			<td><button>5</button></td>
+			<td><button>6</button></td>
+			<td><button>*</button></td>
+			<td><button>/</button></td>
+		</tr>
+		<tr>
+			<td><button>7</button></td>
+			<td><button>8</button></td>
+			<td><button>9</button></td>
+			<td></td>
+			<td><button>Enter</button></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><button>0</button><td>
+			<td></td>
+			<td><button>Clear</button></td>
+		</tr>
+	</table>
+	<script>
+	var Rekenmachine = function(invoer){
+		var obj = {};
+		obj.invoer = invoer;
+		obj.display = 0;
+		obj.result = false;
+		
+		obj.Input = function(button_input){
+			if(obj.result){
+				if(button_input.match(/[\/*--+]/g)){
+					test = obj.display;
+					obj.display = test;
+				}else{
+					obj.display = 0;
+				}
+				obj.result = false;
+			}
+			switch(button_input){
+				case "Enter" :
+					obj.display = this.calculate();
+					break;
+				case "Clear" :
+					obj.display = 0;
+					break;
+				default :
+					if(obj.display == 0){
+						obj.display = button_input;
+					}else{
+						obj.display = obj.display+''+button_input;
+					}
+					break;
+			}
+			$("#display").html(obj.display);
+		};		
+		
+		obj.getDisplay = function(){
+			return obj.display;
+		};
+		
+		obj.calculate = function(){
+			obj.result = true;
+			return eval(obj.display);
+		};
+		return obj;
+	};
+		
+		
+	var Calculator = Rekenmachine(0);
+	
+	several_click_elements("#numpads","button");
+
+	function several_click_elements(path_to_element,what){
+		element = $(path_to_element).find(what);
+		random = false;;
+		for( i = 0; i< element.length;i++){
+			make_click(element,i);
+		}
+	}
+
+	function make_click(element,i){
+		$(element).eq(i).click(function(){
+		Calculator.Input($(element).eq(i).html())
+		});
+	}
+		
+	</script>
+</body>
+</html>
