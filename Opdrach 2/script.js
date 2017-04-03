@@ -35,6 +35,7 @@ var Opdracht2 = function(invoer) {
     };
 
     obj.restart = function(){
+        obj.vieuwfix();
         delete(obj);
         return "start()";
     };
